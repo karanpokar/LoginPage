@@ -27,7 +27,7 @@ const LoginScreen = () => {
   const login = (user, token) => dispatch(Login(user, token));
   const [nameInput, setNameInput] = useState(false);
   const [passInput, setPassInput] = useState(false);
-  const [type, setType] = useState("Login");
+  const [type, setType] = useState("Register");
   const setUser = async () => {
     console.log("Inside set User");
     try {
