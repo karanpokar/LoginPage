@@ -1,0 +1,9 @@
+com/loginpage/MainActivity.java
+ com.loginpage.MainActivity
+com/loginpage/BuildConfig.java
+ com.loginpage.BuildConfig
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
+com/loginpage/MainApplication.java
+ com.loginpage.MainApplication
+ com.loginpage.MainApplication$1
