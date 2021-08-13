@@ -2,7 +2,7 @@
 
 ## Installation
 
-Use the package manager [npm](https://pip.pypa.io/en/stable/) to install required dependencies.
+Use the package manager [npm](https://www.npmjs.com/) to install required dependencies.
 
 ```bash
 npm i react-native-cli react-native-firebase react-native-keyboard-aware-scroll-view base-64 @react-native-async-storage/async-storage react-redux redux 
