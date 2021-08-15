@@ -28,6 +28,7 @@ const LoginScreen = () => {
   const [nameInput, setNameInput] = useState(false);
   const [passInput, setPassInput] = useState(false);
   const [type, setType] = useState('Login');
+  console.log('Type',type)
   const setUser = async () => {
     console.log('Inside set User');
     try {
@@ -179,13 +180,20 @@ const LoginScreen = () => {
         </View>
       </View>
       <View style={{flex: 0.32, marginTop: -20}}>
-        <TouchableOpacity
+        {type=='Register'?<TouchableOpacity
           style={styles.button}
-          onPress={type == 'Register' ? () => SignUp : () => SignIn()}>
+          onPress={() => SignUp()}>
           <Text style={{color: 'white', fontSize: 21, fontWeight: 'bold'}}>
-            {type == 'Register' ? 'Register' : 'Login'}
+           Register
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity>:        <TouchableOpacity
+          style={styles.button}
+          onPress={()=>SignIn()}>
+          <Text style={{color: 'white', fontSize: 21, fontWeight: 'bold'}}>
+            Login
+          </Text>
+        </TouchableOpacity>}
+
         <Text
           style={{
             color: '#999',

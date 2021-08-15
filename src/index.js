@@ -8,6 +8,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {connect, useSelector} from 'react-redux';
 
 import {login} from './store/ConfigureStore';
+import ProductList from './Screens/ProductList';
 const Stack = createStackNavigator();
 
 const Index = () => {
@@ -52,6 +53,7 @@ const Index = () => {
             headerShown: false,
           }}>
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="ProductList" component={ProductList} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

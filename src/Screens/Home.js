@@ -1,10 +1,40 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity, Dimensions, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect, useSelector, useDispatch} from 'react-redux';
 import {Logout} from '../store/ActionCreators';
-const Home = () => {
+import axios from 'axios'
+import CategoryCard from '../Components/CategoryCard';
+
+
+const Home = ({navigation}) => {
   const [email, setEmail] = React.useState('XYZ');
+  const [categories,setCategories]=React.useState([])
+  const [category,setCategory]=React.useState('electronics')
+  useEffect(()=>{
+    const fetchCategories=async()=>{
+      await axios.get('https://fakestoreapi.com/products/categories').then((res)=>{
+        setCategories(res.data)
+        console.log('Categories',JSON.stringify(res.data,null,2))
+      }).catch((error)=>{
+        console.log('Error while fetching Categoris',error)
+      })
+    }
+    fetchCategories()
+  },[])
+  
+//   useEffect(()=>{
+//     const fetchCategoryData=async()=>{
+//       await axios.get(`https://fakestoreapi.com/products/category/${category}`).then((res)=>{
+// //        setCategories(res.data)
+//         console.log('CategoryData Electroinics',JSON.stringify(res.data,null,2))
+//       }).catch((error)=>{
+//         console.log('Error while fetching Categoris',error)
+//       })
+//     }
+//     fetchCategoryData()
+//   },[category])
+
   const getData = async () => {
     try {
       //      console.log('InsideuseEffect');
@@ -25,6 +55,7 @@ const Home = () => {
   }, []);
   const dispatch = useDispatch();
   const logout = status => dispatch(Logout(status));
+  console.log('Categories outside useEffect',categories)
   const deleteUser = async () => {
     console.log('Inside Delete User');
     try {
@@ -35,37 +66,16 @@ const Home = () => {
       console.log('Error', e);
     }
   };
+  const renderItem = ({ item }) => (
+   <TouchableOpacity onPress={()=>navigation.navigate('ProductList',{category:item})}>
+   <CategoryCard name={item} selected={category==item?true:false}/>
+   </TouchableOpacity>
+  );
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text
-        style={{
-          alignSelf: 'center',
-          marginBottom: 20,
-        }}>
-        {email}
-      </Text>
-      <TouchableOpacity
-        onPress={() => {
-          logout(false);
-          deleteUser();
-        }}
-        style={{
-          height: Dimensions.get('screen').height * 0.07,
-          alignSelf: 'center',
-          backgroundColor: 'darkblue',
-          borderRadius: 21,
-          width: Dimensions.get('screen').width * 0.3,
-        }}>
-        <Text
-          style={{
-            color: '#fff',
-            fontSize: 15,
-            alignSelf: 'center',
-            marginTop: 10,
-          }}>
-          Log out
-        </Text>
-      </TouchableOpacity>
+    <View style={{flex: 1, alignItems: 'center'}}>
+    <FlatList style={{flex:1}} data={categories}
+    keyExtractor={(item)=>item}
+    renderItem={renderItem}/>
     </View>
   );
 };
