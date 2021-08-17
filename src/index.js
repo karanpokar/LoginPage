@@ -9,6 +9,7 @@ import {connect, useSelector} from 'react-redux';
 
 import {login} from './store/ConfigureStore';
 import ProductList from './Screens/ProductList';
+import Dashboard from './Screens/Dashboard';
 const Stack = createStackNavigator();
 
 const Index = () => {
@@ -52,6 +53,7 @@ const Index = () => {
           screenOptions={{
             headerShown: false,
           }}>
+          <Stack.Screen name='Dashboard' component={Dashboard}/>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="ProductList" component={ProductList} />
         </Stack.Navigator>

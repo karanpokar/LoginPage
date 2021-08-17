@@ -6,6 +6,7 @@ const defaultState = {
 };
 
 const AuthReducer = (state = defaultState, action) => {
+  
   console.log('ActionType', action.type);
   switch (action.type) {
     case LOGIN:
@@ -23,7 +24,7 @@ const AuthReducer = (state = defaultState, action) => {
       console.log('Default Again');
       return {
         ...state,
-        token: null,
+        
       };
   }
 };
