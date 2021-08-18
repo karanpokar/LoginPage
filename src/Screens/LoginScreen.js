@@ -9,6 +9,7 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -20,38 +21,52 @@ const WIDTH = Dimensions.get('screen').width;
 
 //
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [pass, setPass] = useState('');
-  const dispatch = useDispatch();
-  const login = (user, token) => dispatch(Login(user, token));
+  const [loading,setLoading]=useState(false)
   const [nameInput, setNameInput] = useState(false);
   const [passInput, setPassInput] = useState(false);
   const [type, setType] = useState('Login');
-  console.log('Type',type)
-  const setUser = async () => {
-    console.log('Inside set User');
-    try {
-      await AsyncStorage.setItem('loginKey', name);
-    } catch (e) {
-      // saving error
+  const [passwordError,setPasswordError]=useState('')
+  const [emailError,setEmailError]=useState('')
+  const [disabled,setDisabled]=useState(true)
+
+  const dispatch = useDispatch();
+  const login = (user, token) => dispatch(Login(user, token));
+
+  let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+  let mediumPassword = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))')
+  
+  function StrengthChecker(PasswordParameter){
+    if(strongPassword.test(PasswordParameter)) {
+        setPasswordError('Strong')
+    } else if(mediumPassword.test(PasswordParameter)){
+        setPasswordError('Medium')
+    } else{
+        setPasswordError('Weak')
     }
-  };
+}
 
   function ValidateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      setDisabled(false)
+      setEmailError('')
       return true;
     }
-    //alert('You have entered an invalid email address!');
+      setEmailError('Please Enter Valid Email')
+      setDisabled(true)
     return false;
   }
 
   const SignUp = () => {
+    setLoading(true)
     console.log('Inside SignUp');
-    if (ValidateEmail(name) && pass.length > 5) {
+
       auth()
         .createUserWithEmailAndPassword(name, pass)
         .then(data => {
+          setLoading(false)
           console.log('User account created & signed in!', data);
           login(data, data.user.uid);
           const setUID = async data => {
@@ -73,25 +88,22 @@ const LoginScreen = () => {
           if (error.code === 'auth/invalid-email') {
             console.log('That email address is invalid!');
           }
-
+          setLoading(false)
           console.error(error);
         });
-    } else {
-      alert('You have entered an invalid email address or Password!');
-    }
   };
 
   const SignIn = () => {
+    setLoading(true)
     console.log('Inside SignIn');
-    if (ValidateEmail(name) && pass.length > 5) {
       auth()
         .signInWithEmailAndPassword(name, pass)
         .then(data => {
           console.log('User account created & signed in!', data);
           login(data, data.user.uid);
+          setLoading(false)
           const setUID = async data => {
             await AsyncStorage.setItem('uid', data.user.uid);
-            await AsyncStorage.setItem('email', name);
           };
           setUID(data);
           const setEmail = async name => {
@@ -101,19 +113,15 @@ const LoginScreen = () => {
           setEmail(name);
         })
         .catch(error => {
+          setLoading(false)
           if (error.code === 'auth/email-already-in-use') {
             console.log('That email address is already in use!');
           }
-
           if (error.code === 'auth/invalid-email') {
             console.log('That email address is invalid!');
           }
-
           console.error('Error while signIn', error);
         });
-    } else {
-      alert('You have entered an invalid email address or Password!');
-    }
   };
 
   return (
@@ -157,43 +165,54 @@ const LoginScreen = () => {
             placeholderTextColor={'#999999'}
             onFocus={() => setNameInput(true)}
             onChangeText={text => setName(text)}
-            //onEndEditing={()=>setNameInput(false)}
+            onEndEditing={(e)=>ValidateEmail(e.nativeEvent.text)}
             //style={styles.activeInput}>
             style={
               nameInput ? styles.activeInput : styles.inactiveInput
             }></TextInput>
+            <Text style={{alignSelf:'flex-start',color:'red',fontWeight:'bold'}}>{emailError}</Text>
           <TextInput
             onFocus={() => setPassInput(true)}
             placeholder={'Password'}
             secureTextEntry={true}
             onChangeText={text => setPass(text)}
+            onEndEditing={(e)=>StrengthChecker(e.nativeEvent.text)}
             placeholderTextColor={'#999999'}
             style={
               passInput ? styles.activeInput : styles.inactiveInput
             }></TextInput>
+            <Text style={{alignSelf:'flex-start',color:passwordError=='Strong'?'green':'orange',fontWeight:'bold'}}>{passwordError}</Text>
         </View>
         <View style={{flexDirection: 'row', marginVertical: HEIGHT * 0.04}}>
+          <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
           <Text style={{...styles.optionButton, color: '#999'}}>
             Forgot Password? /{' '}
           </Text>
+          </TouchableOpacity>
           <Text style={{...styles.optionButton, color: '#000'}}>Reset</Text>
         </View>
       </View>
       <View style={{flex: 0.32, marginTop: -20}}>
+        {loading?<ActivityIndicator size={32} color='cyan'/>:<>
         {type=='Register'?<TouchableOpacity
-          style={styles.button}
+          style={{...styles.button,backgroundColor:disabled?'grey':'#b22342'}}
+          disabled={disabled}
           onPress={() => SignUp()}>
           <Text style={{color: 'white', fontSize: 21, fontWeight: 'bold'}}>
            Register
           </Text>
         </TouchableOpacity>:        <TouchableOpacity
-          style={styles.button}
-          onPress={()=>SignIn()}>
+          style={{...styles.button,backgroundColor:disabled?'grey':'#b22342'}}
+          onPress={()=>SignIn()}
+          disabled={disabled}
+          >
+          
           <Text style={{color: 'white', fontSize: 21, fontWeight: 'bold'}}>
             Login
           </Text>
         </TouchableOpacity>}
-
+        </>}
+        
         <Text
           style={{
             color: '#999',

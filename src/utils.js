@@ -15,6 +15,16 @@ export const takePictureGallery = async (image) => {
     console.log(image);
 };
 
+{/*
+export const takePictureGallery = async (image) => {
+  firestore()
+.collection('Image').add({name:image})
+.then(() => {
+console.log('Image added!');
+});
+  console.log(image);
+};
+*/}
 export const takePicture = async (camera) => {
     if (camera) {
       const options = { quality: 1, base64: true };

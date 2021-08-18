@@ -10,6 +10,7 @@ import {connect, useSelector} from 'react-redux';
 import {login} from './store/ConfigureStore';
 import ProductList from './Screens/ProductList';
 import Dashboard from './Screens/Dashboard';
+import ForgotPassword from './Screens/ForgotPassword';
 const Stack = createStackNavigator();
 
 const Index = () => {
@@ -47,6 +48,7 @@ const Index = () => {
             headerShown: false,
           }}>
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator

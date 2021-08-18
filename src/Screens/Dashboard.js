@@ -88,7 +88,7 @@ export default function Dashboard() {
    useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       setVisibleNotification(true)
-      setMessage(remoteMessage.notification.body)
+      setMessage({body:remoteMessage.notification.body,title:remoteMessage.notification.title})
       setTimeout(() => {
         setVisibleNotification(false)
       }, 4000);
@@ -100,16 +100,26 @@ export default function Dashboard() {
 <>
 <Modal transparent={true} visible={visibleNotification} animationType={"fade"}>
   <TouchableOpacity onPress={()=>setVisibleNotification(false)} style={{height:100,width:Dimensions.get('screen').width-20,padding:15,backgroundColor:'lightblue',margin:20,borderRadius:10,alignSelf:'center'}}>
-    <Text style={{color:'black',fontWeight:'bold',fontSize:20}}>{message}</Text>
-    <Text style={{color:'black',fontSize:18}}>{message}</Text>
+    <Text style={{color:'black',fontWeight:'bold',fontSize:20}}>{message.title}</Text>
+    <Text style={{color:'black',fontSize:18}}>{message.body}</Text>
   </TouchableOpacity>
 </Modal>
       <NavigationContainer independent={true} >
-
-        <Tab.Navigator initialRouteName="Text"
+      
+        <Tab.Navigator initialRouteName="Notification"
       activeColor="darkblue"
       inactiveColor='grey'
       barStyle={{ backgroundColor: 'white' }}>
+        <Tab.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{
+          tabBarLabel: 'Notifications',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={26} />
+          ),
+        }}
+      />
           <Tab.Screen
         name="Text"
         component={TextField}
@@ -137,16 +147,7 @@ export default function Dashboard() {
           ),
         }}
       />
-       <Tab.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          tabBarLabel: 'Notifications',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
-          ),
-        }}
-      />
+       
 
         </Tab.Navigator>
       </NavigationContainer>
