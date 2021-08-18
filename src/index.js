@@ -3,22 +3,23 @@ import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../src/Screens/LoginScreen';
-import Home from '../src/Screens/Home';
 import {NavigationContainer} from '@react-navigation/native';
 import {connect, useSelector} from 'react-redux';
-
 import {login} from './store/ConfigureStore';
-import ProductList from './Screens/ProductList';
+
 import Dashboard from './Screens/Dashboard';
 import ForgotPassword from './Screens/ForgotPassword';
 const Stack = createStackNavigator();
 
 const Index = () => {
+
   const token = useSelector(state => state.token);
   const [firstLogin, setFirstLogin] = useState(token == null ? true : false);
+  
   useEffect(() => {
     setFirstLogin(token == null ? true : false);
   }, [token]);
+
   const getData = async () => {
     try {
       //      console.log('InsideuseEffect');
@@ -40,6 +41,7 @@ const Index = () => {
     //setFirstLogin(token ? false : true);
   }, []);
   //let Token = false;
+
   return (
     <NavigationContainer>
       {firstLogin == true ? (
@@ -56,8 +58,8 @@ const Index = () => {
             headerShown: false,
           }}>
           <Stack.Screen name='Dashboard' component={Dashboard}/>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="ProductList" component={ProductList} />
+          
+          
         </Stack.Navigator>
       )}
     </NavigationContainer>
