@@ -150,7 +150,7 @@ const LoginScreen = ({ navigation }) => {
               <Text
                 style={{
                   ...styles.optionButton,
-                  color: type == "Login" ? "#999" : "#000",
+                  color: type == "Login" ? "#999" : "#fff",
                 }}
               >
                 If your are new/{" "}
@@ -160,7 +160,7 @@ const LoginScreen = ({ navigation }) => {
               <Text
                 style={{
                   ...styles.optionButton,
-                  color: type == "Register" ? "#999" : "#000",
+                  color: type == "Login" ? "#fff" : "#999",
                 }}
               >
                 Login Now
@@ -212,10 +212,10 @@ const LoginScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("ForgotPassword")}
           >
             <Text style={{ ...styles.optionButton, color: "#999" }}>
-              Forgot Password? /{" "}
+              Forgot Password? 
             </Text>
           </TouchableOpacity>
-          <Text style={{ ...styles.optionButton, color: "#000" }}>Reset</Text>
+          
         </View>
       </View>
       <View style={{ flex: 0.32, marginTop: -20 }}>
@@ -256,7 +256,7 @@ const LoginScreen = ({ navigation }) => {
             )}
           </>
         )}
-
+        <TouchableOpacity onPress={type=='Register'?()=>setType('Login'):()=>setType('Register')}>
         <Text
           style={{
             color: "#999",
@@ -265,8 +265,9 @@ const LoginScreen = ({ navigation }) => {
             marginTop: 10,
           }}
         >
-          Skip for Now
+          {type=='Register'?'Login':'Register'}
         </Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAwareScrollView>
   );
@@ -277,10 +278,10 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#222",
     paddingBottom: Dimensions.get("screen").height * 0.2,
   },
-  greeting: { fontSize: 35, color: "#222", fontWeight: "bold" },
+  greeting: { fontSize: 35, color: "#fff", fontWeight: "bold" },
   subContainer: {
     flex: 1,
     padding: Dimensions.get("screen").width * 0.1,
@@ -297,7 +298,7 @@ const styles = StyleSheet.create({
   circle: {
     height: 50,
     width: 25,
-    backgroundColor: "black",
+    backgroundColor: "white",
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
   },

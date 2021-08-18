@@ -12,13 +12,11 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Camera from "./Camera";
-import firestore from "@react-native-firebase/firestore";
-import { connect, useSelector } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import TextField from "./TextField";
 import Calculator from "./Calculator";
 import messaging from "@react-native-firebase/messaging";
-import { Alert } from "react-native";
+
 import functions from "@react-native-firebase/functions";
 
 const requestUserPermission = async () => {
@@ -63,7 +61,7 @@ const Notifications = () => {
       .catch((error) => console.log("Error", error));
   };
   return (
-    <View style={{ flex: 1, justifyContent: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center",backgroundColor:'#222' }}>
       <TouchableOpacity
         style={{
           alignItems: "center",
@@ -132,9 +130,9 @@ export default function Dashboard() {
       <NavigationContainer independent={true}>
         <Tab.Navigator
           initialRouteName="Notification"
-          activeColor="darkblue"
+          activeColor="white"
           inactiveColor="grey"
-          barStyle={{ backgroundColor: "white" }}
+          barStyle={{ backgroundColor: "#222" }}
         >
           <Tab.Screen
             name="Notifications"

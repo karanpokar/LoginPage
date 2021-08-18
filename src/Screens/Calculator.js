@@ -46,18 +46,9 @@ const Calculator = () => {
     </TouchableOpacity>
   );
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "#222" }}>
       <View
-        style={{
-          marginVertical: HEIGHT * 0.03,
-          height: HEIGHT * 0.2,
-          backgroundColor: "#444444",
-          borderRadius: 10,
-          width: WIDTH * 0.92,
-          alignSelf: "center",
-          justifyContent: "flex-end",
-          padding: 10,
-        }}
+        style={styles.container}
       >
         <Text
           style={{
@@ -120,6 +111,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     marginBottom: 5,
+  },
+  container:{
+    marginVertical: HEIGHT * 0.03,
+    height: HEIGHT * 0.2,
+    backgroundColor: "#444444",
+    borderRadius: 10,
+    width: WIDTH * 0.92,
+    alignSelf: "center",
+    justifyContent: "flex-end",
+    padding: 10,
   },
   buttonText: { fontSize: 28, fontWeight: "bold" },
 });

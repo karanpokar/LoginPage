@@ -1,5 +1,5 @@
 import React,{useEffect, useRef,useState} from 'react'
-import { View, Text,StyleSheet,TouchableOpacity,Image, Modal, Dimensions } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity,Image, Modal, Dimensions,Alert } from 'react-native'
 import { RNCamera } from 'react-native-camera';
 import firestore from '@react-native-firebase/firestore';
 import * as ImagePicker from 'react-native-image-picker';

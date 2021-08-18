@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get("screen").width,
     alignItems: "center",
+    backgroundColor:'#222'
   },
   inputContainer: { flex: 1, justifyContent: "flex-start" },
-  displayText: { fontWeight: "bold", fontSize: 32 },
+  displayText: { fontWeight: "bold", fontSize: 32,color:'#fff' },
 });

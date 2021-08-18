@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+//import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../src/Screens/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {connect, useSelector} from 'react-redux';
 import {login} from './store/ConfigureStore';
-
+import SplashScreen from './Screens/SplashScreen'
 import Dashboard from './Screens/Dashboard';
 import ForgotPassword from './Screens/ForgotPassword';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 const Stack = createStackNavigator();
+
 
 const Index = () => {
 
@@ -48,7 +53,9 @@ const Index = () => {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
           }}>
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
@@ -56,7 +63,9 @@ const Index = () => {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
           }}>
+          
           <Stack.Screen name='Dashboard' component={Dashboard}/>
           
           
