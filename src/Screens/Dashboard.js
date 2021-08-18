@@ -69,7 +69,7 @@ const Notifications = () => {
           alignItems: "center",
           justifyContent: "center",
           alignSelf: "center",
-          width: 150,
+          width: 200,
           height: 60,
           backgroundColor: "red",
           borderRadius: 20,
@@ -77,7 +77,7 @@ const Notifications = () => {
         }}
         onPress={() => getVal(token)}
       >
-        <Text>Send Notification</Text>
+        <Text style={{color:'white',fontWeight:'bold',fontSize:18}}>Send Notification</Text>
       </TouchableOpacity>
     </View>
   );

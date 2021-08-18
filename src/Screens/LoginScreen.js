@@ -8,8 +8,10 @@ import {
   Platform,
   StatusBar,
   TextInput,
+  alert,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -86,14 +88,15 @@ const LoginScreen = ({ navigation }) => {
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
-          console.log("That email address is already in use!");
+          Alert.alert("That email address is already in use!");
         }
 
         if (error.code === "auth/invalid-email") {
-          console.log("That email address is invalid!");
+          Alert.alert("That email address is invalid!");
         }
         setLoading(false);
-        console.error(error);
+        
+        Alert.alert('Already in Use or Invalid');
       });
   };
 
@@ -119,12 +122,12 @@ const LoginScreen = ({ navigation }) => {
       .catch((error) => {
         setLoading(false);
         if (error.code === "auth/email-already-in-use") {
-          console.log("That email address is already in use!");
+          Alert.alert("That email address is already in use!");
         }
         if (error.code === "auth/invalid-email") {
-          console.log("That email address is invalid!");
+          Alert.alert("That email address is invalid!");
         }
-        console.error("Error while signIn", error);
+        Alert.alert("Error while signIn, Email Address or Password is incorrect");
       });
   };
 
